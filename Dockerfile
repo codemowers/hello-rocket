@@ -12,5 +12,5 @@ FROM scratch
 WORKDIR /
 ENV ROCKET_CONFIG=/app/Rocket.toml
 COPY Rocket.toml /app/
-COPY --from=build /app/target/x86_64-unknown-linux-gnu/release/app /server
+COPY --from=build /app/target/x86_64-unknown-linux-gnu/release/hello-rocket /server
 ENTRYPOINT ["/server"]
