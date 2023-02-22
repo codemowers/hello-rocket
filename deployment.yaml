@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-rocket
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-rocket
+  template:
+    metadata:
+      labels:
+        app: hello-rocket
+    spec:
+      enableServiceLinks: false
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: hello-rocket
+          image: hello-rocket
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          ports:
+            - containerPort: 8000
+              name: http
+            - containerPort: 8080
+              name: metrics
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-rocket
+  labels:
+    app: hello-rocket
+spec:
+  selector:
+    app: hello-rocket
+  ports:
+  - protocol: TCP
+    port: 8000
+    name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-rocket
+  annotations:
+    kubernetes.io/ingress.class: shared
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    external-dns.alpha.kubernetes.io/target: traefik.codemowers.ee
+spec:
+  rules:
+  - host: hello-rocket-lauri.codemowers.ee
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: hello-rocket
+            port:
+              name: http
+  tls:
+  - hosts:
+    - "*.codemowers.ee"

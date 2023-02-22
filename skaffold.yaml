@@ -1,0 +1,20 @@
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: hello-rocket
+
+deploy:
+  kubectl: {}
+
+manifests:
+  rawYaml:
+     - deployment.yaml
+
+build:
+  artifacts:
+  - image: hello-rocket
+
+  # Comment following lines below to build locally
+  cluster:
+    dockerConfig:
+      secretName: kaniko
