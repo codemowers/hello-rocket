@@ -72,9 +72,14 @@ fn hello(lang: Option<Lang>, opt: Options<'_>) -> String {
     greeting
 }
 
+use rocket_prometheus::PrometheusMetrics;
+
 #[launch]
 fn rocket() -> _ {
+    let prometheus = PrometheusMetrics::new();
     rocket::build()
+        .attach(prometheus.clone())
+        .mount("/metrics", prometheus)
         .mount("/", routes![hello])
         .mount("/hello", routes![world, mir])
         .mount("/wave", routes![wave])
