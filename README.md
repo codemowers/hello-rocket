@@ -1,4 +1,17 @@
 # Hello cloud native Rocket
 
-This example includes `Dockerfile` that statically links the Rocket based
-application for minimal Docker image footprint
+Cloud native example of [Rocket web framework](https://rocket.rs/)
+
+* Includes Prometheus metrics middleware and endpoint
+* Builds statically linked binary for minimized Docker image footprint
+
+
+## Usage
+
+Building and running locally:
+
+```
+docker-compose up --build
+```
+
+Proceed to open up http://localhost:8000
