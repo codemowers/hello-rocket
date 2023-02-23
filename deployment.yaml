@@ -55,11 +55,11 @@ metadata:
     external-dns.alpha.kubernetes.io/target: traefik.codemowers.ee
 spec:
   rules:
-  - host: hello-rocket-lauri.codemowers.ee
+  - host: hello-foobar.codemowers.ee
     http:
       paths:
       - pathType: Prefix
-        path: "/"
+        path: "/api/v1/rocket"
         backend:
           service:
             name: hello-rocket

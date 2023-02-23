@@ -15,6 +15,6 @@ build:
   - image: hello-rocket
 
   # Comment following lines below to build locally
-  cluster:
-    dockerConfig:
-      secretName: kaniko
+#  cluster:
+#    dockerConfig:
+#      secretName: kaniko
